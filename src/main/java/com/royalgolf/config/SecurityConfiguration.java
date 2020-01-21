@@ -25,9 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	}
 
-	/*
-	 * @Bean public CustomFilter customFilter() { return new CustomFilter(); }
-	 */
+	
+	 // @Bean public CustomFilter customFilter() { return new CustomFilter(); }
+	 
 
 	@Bean
 	public BCryptPasswordEncoder encoder() {

@@ -1,4 +1,4 @@
-package com.royalgolf.entity;
+package com.royalgolf.entities;
 
 import java.io.Serializable;
 import java.util.Date;

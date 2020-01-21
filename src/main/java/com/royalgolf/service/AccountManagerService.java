@@ -2,7 +2,7 @@ package com.royalgolf.service;
 
 import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
-import com.royalgolf.entity.UserLoginBean;
+import com.royalgolf.entities.UserLoginBean;
 
 public interface AccountManagerService {
 

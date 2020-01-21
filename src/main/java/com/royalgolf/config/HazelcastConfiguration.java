@@ -20,7 +20,7 @@ public class HazelcastConfiguration {
 	@Bean
 	public Config hazelCastConfig() {
 		return new Config().setInstanceName("hazelcast-instance")
-				.addMapConfig(new MapConfig().setName("employees")
+				.addMapConfig(new MapConfig().setName("email")
 						.setMaxSizeConfig(new MaxSizeConfig(200, MaxSizeConfig.MaxSizePolicy.FREE_HEAP_SIZE))
 						.setEvictionPolicy(EvictionPolicy.LRU).setTimeToLiveSeconds(20))
 				.setProperty("hazelcast.health.monitoring.level", HealthMonitorLevel.OFF.toString());

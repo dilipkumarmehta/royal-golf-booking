@@ -13,7 +13,7 @@ import com.royalgolf.beans.EmailBean;
 import com.royalgolf.beans.Password;
 import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
-import com.royalgolf.entity.UserLoginBean;
+import com.royalgolf.entities.UserLoginBean;
 import com.royalgolf.service.AccountManagerService;
 
 /**
