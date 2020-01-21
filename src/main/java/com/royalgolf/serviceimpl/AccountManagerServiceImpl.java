@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -59,8 +61,8 @@ public class AccountManagerServiceImpl implements AccountManagerService {
 		status.setError_code("401");
 		return status;
 	}
-	@Cacheable(cacheNames = "email", key = "{#emailusername}")
 	
+	@Cacheable(cacheNames = "email", key = "{#emailusername}",unless="#result==null")
 	public UserLoginBean verifyEmailusername(String emailusername) {
 		UserLoginBean findByemailId = userServiceRepository.findByemailusername(emailusername);
 		return findByemailId;
@@ -81,6 +83,16 @@ public class AccountManagerServiceImpl implements AccountManagerService {
 	public Status sendEmail(String email, String subject, String text) {
 		emailService.sendEmail(email, subject, text);
 		return null;
+	}
+	
+	@CacheEvict(cacheNames = "email", key = "{#emailusername}")
+	public void delete(Integer email) {
+		//delete operation
+	}
+	
+	@CachePut(cacheNames = "email", key = "{#emailusername}")
+	public void update(Integer email, String newMobileNumber) {
+		// update operation
 	}
 
 }
