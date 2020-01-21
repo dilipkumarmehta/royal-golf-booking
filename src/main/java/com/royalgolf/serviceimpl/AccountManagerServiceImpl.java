@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
 import com.royalgolf.entities.UserLoginBean;
-import com.royalgolf.repository.AccountManagerRepository;
+import com.royalgolf.repository.AccountManagerDao;
 import com.royalgolf.service.AccountManagerService;
 import com.royalgolf.service.EmailService;
 import com.royalgolf.util.PasswordEncoderDecoder;
@@ -25,7 +25,7 @@ public class AccountManagerServiceImpl implements AccountManagerService {
 	private static Logger logger = LoggerFactory.getLogger(AccountManagerServiceImpl.class);
 
 	@Autowired(required = true)
-	private AccountManagerRepository userServiceRepository;
+	private AccountManagerDao userServiceRepository;
 
 	@Autowired(required = true)
 	private EmailService emailService;

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usermaster")
+@Table(name = "usermaster_1")
 public class UserLoginBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

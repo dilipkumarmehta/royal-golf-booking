@@ -15,7 +15,7 @@ import com.royalgolf.entities.UserLoginBean;
 
 
 @Repository
-public interface AccountManagerRepository extends JpaRepository<UserLoginBean, Long> {
+public interface AccountManagerDao extends JpaRepository<UserLoginBean, Long> {
 
 	@Query(value = "select * from usermaster where dbo.pwddecript(userpwd)=:password and EMAILUSERNAME=:emailId and USERCODE=:usercode and active=1", nativeQuery = true)
 	public Optional<UserLoginBean> logIn(@Param("password") String password, @Param("emailId") String emailId,

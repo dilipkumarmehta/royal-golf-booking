@@ -132,8 +132,14 @@ public class AccountManagerController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "manage-profile", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public Status updateProfile(@RequestParam(value = "email") String email) {
+
+		return null;
+	}
+
+	@RequestMapping(value = "profile", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	public Status getProfile(@RequestParam(value = "email") String email) {
 
 		return null;
 	}

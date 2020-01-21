@@ -1,4 +1,4 @@
-package com.royalgolf.config;
+/*package com.royalgolf.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +14,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("admin").password(encoder().encode("adminPass")).roles("ADMIN").and()
+		auth.inMemoryAuthentication()
+		.withUser("admin")
+		.password(encoder().encode("adminPass")).roles("ADMIN").and()
 				.withUser("user").password(encoder().encode("userPass")).roles("USER");
 	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeRequests().antMatchers("*").authenticated().and().httpBasic();
+		httpSecurity.authorizeRequests()
+		.antMatchers("*").authenticated()
+		.and().httpBasic();
 		httpSecurity.csrf().disable();
 
 	}
@@ -33,4 +37,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-}
+}*/

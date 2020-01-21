@@ -1,4 +1,4 @@
-package com.royalgolf.config;
+/*package com.royalgolf.config;
 
 import org.springframework.stereotype.Component;
 
@@ -30,4 +30,4 @@ public class CustomFilter implements Filter {
         System.out.println("Destroy::called");
 
     }
-}
+}*/
