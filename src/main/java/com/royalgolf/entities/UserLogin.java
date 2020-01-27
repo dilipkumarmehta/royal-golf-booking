@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "usermaster_1")
-public class UserLoginBean implements Serializable {
+public class UserLogin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "USERCODE", nullable = false)
@@ -57,7 +57,7 @@ public class UserLoginBean implements Serializable {
 	private String emailpwd;
 	
 
-	public UserLoginBean() {
+	public UserLogin() {
 		super();
 	}
 

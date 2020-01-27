@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
 
-
 @Service
-public class RegistrationService  {
+public class RegistrationService {
 
 	@PersistenceContext
 	private EntityManager em;
 
-	
 	public Status registration(RegistrationBean registrationBean) {
 		Status status = new Status();
 		try {

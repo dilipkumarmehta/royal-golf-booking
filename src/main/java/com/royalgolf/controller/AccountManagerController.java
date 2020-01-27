@@ -10,11 +10,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.royalgolf.beans.EmailBean;
-import com.royalgolf.beans.Password;
-import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
-import com.royalgolf.entities.UserLoginBean;
-import com.royalgolf.service.AccountManagerService;
+import com.royalgolf.beans.VerifyEmailRequest;
+import com.royalgolf.request.ChangePasswordRequest;
+import com.royalgolf.request.GetProfileRequest;
+import com.royalgolf.request.LogOutRequest;
+import com.royalgolf.request.LoginRequest;
+import com.royalgolf.request.OtpRequest;
+import com.royalgolf.request.ResetPasswordRequest;
+import com.royalgolf.request.UpdateProfileRequest;
+import com.royalgolf.request.UserRegistrationRequest;
+import com.royalgolf.response.ChangePasswordResponse;
+import com.royalgolf.response.EmailVarificationCodeResponse;
+import com.royalgolf.response.EmailVarificationResponse;
+import com.royalgolf.response.GetProfileResponse;
+import com.royalgolf.response.LogOutResponse;
+import com.royalgolf.response.LoginResponse;
+import com.royalgolf.response.OtpResponse;
+import com.royalgolf.response.ResetPasswordResponse;
+import com.royalgolf.response.UpdateProfileResponse;
+import com.royalgolf.response.UserRegistrationResponse;
+import com.royalgolf.response.ValidateUserResponse;
+import com.royalgolf.service.EmailService;
+import com.royalgolf.service.LoginManagerService;
+import com.royalgolf.service.RegistrationManagerService;
+import com.royalgolf.service.ValidateUserManagerService;
+import com.royalgolf.service.VerificationCodeService;
+import com.royalgolf.service.VerifyEmailManagerService;
 
 /**
  * @author DilipMehta
@@ -25,9 +47,24 @@ import com.royalgolf.service.AccountManagerService;
 @RequestMapping("/account")
 public class AccountManagerController {
 
-	@Autowired
-	AccountManagerService userService;
 	Logger logger = LoggerFactory.getLogger(AccountManagerController.class);
+
+	@Autowired
+	LoginManagerService loginMangerService;
+
+	@Autowired
+	ValidateUserManagerService validateUserManagerService;
+
+	@Autowired
+	RegistrationManagerService registrationManagerService;
+
+	@Autowired
+	VerificationCodeService verificationCodeService;
+	@Autowired
+	VerifyEmailManagerService verifyEmailManagerService;
+
+	@Autowired
+	EmailService emailService;
 
 	/**
 	 * This method is for existing user to login, it will take user_name/email and
@@ -36,25 +73,39 @@ public class AccountManagerController {
 	 * @param userLoginBean
 	 * @return
 	 */
-	@RequestMapping(value = "sign-in", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public Status signIn(@RequestBody UserLoginBean userLoginBean) {
-		Status status = new Status();
-		Status logIn = userService.logIn(userLoginBean);
-		return logIn;
+	@RequestMapping(value = "login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public LoginResponse signIn(@RequestBody LoginRequest loginRequest) {
+
+		LoginResponse logInRes = loginMangerService.logIn(loginRequest);
+		return logInRes;
+
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public LogOutResponse logOut(@RequestBody LogOutRequest logOutRequest) {
+		LogOutResponse logOut = loginMangerService.logOut(logOutRequest);
+		return logOut;
+
+	}
+
+	@RequestMapping(value = "otp", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public OtpResponse getOtp(@RequestBody OtpRequest otpRequest) {
+
+		return verificationCodeService.generateOtp(otpRequest);
 
 	}
 
 	/**
-	 * Verify email in DB, it is available or not
+	 * Verify userId in DB, it is available or not
 	 * 
 	 * @param emailusername
 	 * @return
 	 */
-	@RequestMapping(value = "email-verification", method = RequestMethod.GET)
-	public Status isUserRegistered(@RequestParam(value = "emailusername") String emailusername) {
+	@RequestMapping(value = "validateuserid", method = RequestMethod.GET)
+	public Status validateUserid(@RequestParam(value = "userId") String userId) {
 		Status status = new Status();
-		UserLoginBean loginResponsc = userService.verifyEmailusername(emailusername);
-		if (loginResponsc == null) {
+		ValidateUserResponse validateUserid = validateUserManagerService.validateUserid(userId);
+		if (validateUserid == null) {
 			status.setSuccess_message("There is no account associated with this email address");
 			status.setSuccess_code("400");
 			return status;
@@ -66,40 +117,44 @@ public class AccountManagerController {
 	}
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public Status userRegistration(@RequestBody RegistrationBean registrationBean) {
+	public UserRegistrationResponse userRegistration(@RequestBody UserRegistrationRequest registrationRequest) {
 		Status status = new Status();
-
-		UserLoginBean loginResponsc = userService.verifyEmailusername(registrationBean.getEmail());
-		if (loginResponsc != null) {
+		UserRegistrationResponse urr = new UserRegistrationResponse();
+		ValidateUserResponse validateUserid = validateUserManagerService.validateUserid("dsf");
+		if (validateUserid != null && validateUserid.isIsuserexist()) {
 			status.setError_message("You already have a account registered to this email go for login");
 			status.setError_code("403");
-			return status;
+			urr.setStatus(status);
+			return urr;
+
 		}
-		Status statusRs = userService.registerUser(registrationBean);
-		if (statusRs != null && statusRs.getSuccess_code().equals("200")) {
-			status.setSuccess_message("You have successfully registered with email " + registrationBean.getEmail());
+		UserRegistrationResponse statusRs = registrationManagerService.registerUser(registrationRequest);
+		if (statusRs != null) {
+			status.setSuccess_message("You have successfully registered with email " + registrationRequest.getUserId());
 			status.setSuccess_code("200");
-			return status;
+
 		}
-		status.setSuccess_message("Erro occured while creating account please try again");
-		status.setSuccess_code("500");
-		return status;
+		if (validateUserid == null) {
+			status.setSuccess_message("Erro occured while creating account please try again");
+			status.setSuccess_code("500");
+		}
+		return statusRs;
 	}
 
 	/*
 	 * This API will take email ID as input to the link in your email inbox, once
 	 * you click on link will redirect to reset-password in case of forage password
 	 */
-	@RequestMapping(value = "account-recovery", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public Status accountRecovery(@RequestBody EmailBean arBean) {
-		userService.sendEmail(arBean.getEmail(), arBean.getSubject(), arBean.getMessage());
+	@RequestMapping(value = "accountrecovery", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public Status sendEmail(@RequestBody EmailBean arBean) {
+		emailService.sendEmail(arBean.getEmail(), arBean.getSubject(), arBean.getMessage());
 		return null;
 	}
 
 	// provide the password and conform password to reset password based on your
 	// email ID
-	@RequestMapping(value = "reset-password", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-	public Status resetPassword(@RequestBody UserLoginBean user) {
+	@RequestMapping(value = "resetpassword", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	public ResetPasswordResponse resetPassword(@RequestBody ResetPasswordRequest resetPasswordReq) {
 
 		return null;
 	}
@@ -108,8 +163,8 @@ public class AccountManagerController {
 	 * This Api will take the old and new password as input to change the password
 	 * and set the email your password has been changed.
 	 */
-	@RequestMapping(value = "change-password", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-	public Status changePassword(@RequestBody Password password) {
+	@RequestMapping(value = "changepassword", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	public ChangePasswordResponse changePassword(@RequestBody ChangePasswordRequest changePasswordReq) {
 		// return userService.changepasswor(password);
 		return null;
 	}
@@ -120,9 +175,9 @@ public class AccountManagerController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "account-activation", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public Status activateAccount(@RequestParam(value = "email") String email) {
-
+	@RequestMapping(value = "verifyemail", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public EmailVarificationResponse verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest) {
+		verifyEmailManagerService.verifyEmail(verifyEmailRequest);
 		return null;
 	}
 
@@ -132,14 +187,14 @@ public class AccountManagerController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
-	public Status updateProfile(@RequestParam(value = "email") String email) {
+	@RequestMapping(value = "profile", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	public UpdateProfileResponse updateProfile(@RequestBody UpdateProfileRequest profileRequest) {
 
 		return null;
 	}
 
-	@RequestMapping(value = "profile", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-	public Status getProfile(@RequestParam(value = "email") String email) {
+	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public GetProfileResponse getProfile(@RequestBody GetProfileRequest getProfileRequest) {
 
 		return null;
 	}
@@ -150,9 +205,15 @@ public class AccountManagerController {
 	 * @param email
 	 * @return
 	 */
-	@RequestMapping(value = "mytrip", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-	public Status getTripDetails(@RequestParam(value = "email") String email) {
+	@RequestMapping(value = "mytrip", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public Status getTripDetails(@RequestParam(value = "userId") String userId) {
 
+		return null;
+	}
+
+	@RequestMapping(value = "verificationcode", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public EmailVarificationCodeResponse generatEmailVerificationCode(@RequestParam(value = "userId") String userId) {
+		verificationCodeService.generatEmailVerificationCode(userId);
 		return null;
 	}
 
