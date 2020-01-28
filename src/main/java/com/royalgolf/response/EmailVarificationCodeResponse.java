@@ -7,7 +7,9 @@ public class EmailVarificationCodeResponse {
 	private String transactionId;
 	private String uniqueCode;
 	private String codeGenerationDate;
-	private Status status;
+	private String status;
+	private String errorcode;
+	private String eroordesc;
 
 	public String getTransactionId() {
 		return transactionId;
@@ -33,12 +35,29 @@ public class EmailVarificationCodeResponse {
 		this.codeGenerationDate = codeGenerationDate;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getErrorcode() {
+		return errorcode;
+	}
+
+	public void setErrorcode(String errorcode) {
+		this.errorcode = errorcode;
+	}
+
+	public String getEroordesc() {
+		return eroordesc;
+	}
+
+	public void setEroordesc(String eroordesc) {
+		this.eroordesc = eroordesc;
+	}
+
 
 }

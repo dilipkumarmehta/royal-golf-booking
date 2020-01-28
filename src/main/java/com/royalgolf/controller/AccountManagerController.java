@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.royalgolf.beans.EmailBean;
 import com.royalgolf.beans.Status;
-import com.royalgolf.beans.VerifyEmailRequest;
 import com.royalgolf.request.ChangePasswordRequest;
 import com.royalgolf.request.GetProfileRequest;
 import com.royalgolf.request.LogOutRequest;
@@ -103,7 +102,7 @@ public class AccountManagerController {
 	 */
 	@RequestMapping(value = "validateuserid", method = RequestMethod.GET)
 	public ValidateUserResponse validateUserid(@RequestParam(value = "userId") String userId,
-			@RequestHeader("my-number") String transactionId) {
+			@RequestHeader("transactionId") String transactionId) {
 		ValidateUserResponse validateUserRes = validateUserManagerService.validateUserid(userId);
 		if (validateUserRes != null && validateUserRes.getStatus().getSuccess_code().equals("200")) {
 			validateUserRes.setTransactionid(transactionId);
@@ -124,25 +123,9 @@ public class AccountManagerController {
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public UserRegistrationResponse userRegistration(@RequestBody UserRegistrationRequest registrationRequest) {
-		return null;
-		/*
-		 * Status status = new Status(); UserRegistrationResponse urr = new
-		 * UserRegistrationResponse(); ValidateUserResponse validateUserid =
-		 * validateUserManagerService.validateUserid("dsf"); if (validateUserid != null
-		 * && validateUserid.isIsuserexist()) { UserRegistrationResponse statusRs =
-		 * registrationManagerService.registerUser(registrationRequest); if (statusRs !=
-		 * null) { status.setSuccess_message(
-		 * "You have successfully registered with email " +
-		 * registrationRequest.getUserId()); status.setSuccess_code("200");
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * if (validateUserid == null) { status.
-		 * setSuccess_message("Erro occured while creating account please try again");
-		 * status.setSuccess_code("500"); } return statusRs;
-		 */
+		UserRegistrationResponse registerUser = registrationManagerService.registerUser(registrationRequest);
+		return registerUser;
+
 	}
 
 	/*
@@ -181,10 +164,10 @@ public class AccountManagerController {
 	 */
 	@RequestMapping(value = "verifyemail", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public EmailVarificationResponse verifyEmail(@RequestParam(value = "uniqueCode") String uniqueCode,
-			@RequestParam(value = "userId") String userId) {
-
-		verifyEmailManagerService.verifyEmail(uniqueCode, userId);
-		return null;
+			@RequestParam(value = "userId") String userId, @RequestHeader("transactionId") String transactionId) {
+		EmailVarificationResponse verifyEmail = verifyEmailManagerService.verifyEmail(uniqueCode, userId);
+		verifyEmail.setTransactionid(transactionId);
+		return verifyEmail;
 	}
 
 	/**
@@ -219,7 +202,8 @@ public class AccountManagerController {
 
 	@RequestMapping(value = "verificationcode", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public EmailVarificationCodeResponse generatEmailVerificationCode(@RequestParam(value = "userId") String userId) {
-		verificationCodeService.generatEmailVerificationCode(userId);
+		EmailVarificationCodeResponse generatEmailVerificationCode = verificationCodeService
+				.generatEmailVerificationCode(userId);
 		return null;
 	}
 

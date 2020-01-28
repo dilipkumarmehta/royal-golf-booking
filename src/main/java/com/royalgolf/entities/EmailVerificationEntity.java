@@ -2,87 +2,54 @@ package com.royalgolf.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 public class EmailVerificationEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	// @Id
-	@Column(name = "USERCODE", nullable = false)
-	private String userCode;
-	@Column(name = "USERNAME")
-	
-	private String userName;
-	@Column(name = "USERPWD")
-	private String userpwd;
-	@Column(name = "GROUPID")
-	private int groupid;
-	@Column(name = "USERDESIGN")
+	private String transactionid;
+	private String emailverifiedstatus;
+	private String status;
+	private String errorcode;
+	private String eroordesc;
 
-	private String userdesign;
-	@Id
-	@Column(name = "DEPTCODE")
-	private String deptcode;
-
-	@Column(name = "USEMAIL")
-	public String getUserCode() {
-		return userCode;
+	public String getTransactionid() {
+		return transactionid;
 	}
 
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setTransactionid(String transactionid) {
+		this.transactionid = transactionid;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getEmailverifiedstatus() {
+		return emailverifiedstatus;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmailverifiedstatus(String emailverifiedstatus) {
+		this.emailverifiedstatus = emailverifiedstatus;
 	}
 
-	public String getUserpwd() {
-		return userpwd;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setUserpwd(String userpwd) {
-		this.userpwd = userpwd;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public int getGroupid() {
-		return groupid;
+	public String getErrorcode() {
+		return errorcode;
 	}
 
-	public void setGroupid(int groupid) {
-		this.groupid = groupid;
+	public void setErrorcode(String errorcode) {
+		this.errorcode = errorcode;
 	}
 
-	public String getUserdesign() {
-		return userdesign;
+	public String getEroordesc() {
+		return eroordesc;
 	}
 
-	public void setUserdesign(String userdesign) {
-		this.userdesign = userdesign;
-	}
-
-	public String getDeptcode() {
-		return deptcode;
-	}
-
-	public void setDeptcode(String deptcode) {
-		this.deptcode = deptcode;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "Test [userCode=" + userCode + ", userName=" + userName + ", userpwd=" + userpwd + ", groupid=" + groupid
-				+ ", userdesign=" + userdesign + ", deptcode=" + deptcode + "]";
+	public void setEroordesc(String eroordesc) {
+		this.eroordesc = eroordesc;
 	}
 
 }

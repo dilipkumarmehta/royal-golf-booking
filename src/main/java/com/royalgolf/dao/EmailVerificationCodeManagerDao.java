@@ -12,14 +12,7 @@ import com.royalgolf.entities.EmailVerificationCodeEntity;
 @Repository
 public interface EmailVerificationCodeManagerDao extends JpaRepository<EmailVerificationCodeEntity, Long> {
 
-	@Query(value = "{call API_GenerateOTP(:userId)}", nativeQuery = true)
-	public Optional<EmailVerificationCodeEntity> getOtp(
-			//@Param("transactionId") String transactionId,
-			//@Param("transactiontTyp") String transactiontTyp,
-			@Param("userId") String userId);
-
 	@Query(value = "{call API_GenerateEmailVerificationCode(:userId)}", nativeQuery = true)
-	public Optional<EmailVerificationCodeEntity> generatEmailVerificationCode(
-			@Param("userId") String userId);
+	public Optional<EmailVerificationCodeEntity> generatEmailVerificationCode(@Param("userId") String userId);
 
 }

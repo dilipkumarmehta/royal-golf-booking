@@ -5,6 +5,6 @@ import com.royalgolf.response.UserRegistrationResponse;
 
 public interface RegistrationManagerService {
 
-	public UserRegistrationResponse registerUser(UserRegistrationRequest loginRequestBean);
+	public UserRegistrationResponse registerUser(UserRegistrationRequest userRegistrationRequest);
 
 }

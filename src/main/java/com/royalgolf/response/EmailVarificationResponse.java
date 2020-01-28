@@ -1,12 +1,11 @@
 package com.royalgolf.response;
 
-import com.royalgolf.beans.Status;
-
 public class EmailVarificationResponse {
-
 	private String transactionid;
 	private String emailverifiedstatus;
-	private Status status;
+	private String status;
+	private String errorcode;
+	private String eroordesc;
 
 	public String getTransactionid() {
 		return transactionid;
@@ -24,12 +23,28 @@ public class EmailVarificationResponse {
 		this.emailverifiedstatus = emailverifiedstatus;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getErrorcode() {
+		return errorcode;
+	}
+
+	public void setErrorcode(String errorcode) {
+		this.errorcode = errorcode;
+	}
+
+	public String getEroordesc() {
+		return eroordesc;
+	}
+
+	public void setEroordesc(String eroordesc) {
+		this.eroordesc = eroordesc;
 	}
 
 }

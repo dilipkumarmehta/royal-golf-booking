@@ -9,15 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.royalgolf.entities.EmailVerificationEntity;
 
-/**
- * @author DilipMehta 1. Login 2. Logout 3. changePassword 4. resePassword 5.
- *         validateUserId
- */
 @Repository
 public interface EmailVerificationManagerDao extends JpaRepository<EmailVerificationEntity, Long> {
 	@Query(value = "{call API_VerifyEmail(:userId)}", nativeQuery = true)
 	public Optional<EmailVerificationEntity> verifyEmail(
-			// @Param("uniqueCode") String uniqueCode,
+			@Param("uniqueCode") String uniqueCode,
 			@Param("userId") String userId);
 
 }
