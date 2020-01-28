@@ -7,17 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.royalgolf.entities.UserLogin;
+import com.royalgolf.entities.UserProfileEntity;
 
 @Repository
-public interface ProfileManagerDao extends JpaRepository<UserLogin, Long> {
+public interface ProfileManagerDao extends JpaRepository<UserProfileEntity, Long> {
 
 	@Query(value = "{call API_UpdateProfile(:userId)}", nativeQuery = true)
-	public Optional<UserLogin> updatePofile(@Param("userId") String userId
+	public Optional<UserProfileEntity> updatePofile(@Param("userId") String userId
 			//@Param("password") String password,
 			//@Param("usercode") String usercode
 			);
 
 	@Query(value = "{call API_GetProfileDetails(:userId)}", nativeQuery = true)
-	public UserLogin getProfile(@Param("userId") String userId);
+	public Optional<UserProfileEntity> getProfile(@Param("userId") String userId);
 }

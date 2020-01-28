@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.royalgolf.entities.UserLogin;
+import com.royalgolf.entities.UserLoginEntity;
 
 @Repository
-public interface RegistrationManagerDao extends JpaRepository<UserLogin, Long> {
+public interface RegistrationManagerDao extends JpaRepository<UserLoginEntity, Long> {
 
 	@Query(value = "{call API_GetProfileDetails(:userId)}", nativeQuery = true)
-	public Optional<UserLogin> register();
+	public Optional<UserLoginEntity> register();
 }

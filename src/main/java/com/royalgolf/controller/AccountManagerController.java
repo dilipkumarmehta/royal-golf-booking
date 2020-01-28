@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,7 +76,6 @@ public class AccountManagerController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public LoginResponse signIn(@RequestBody LoginRequest loginRequest) {
-
 		LoginResponse logInRes = loginMangerService.logIn(loginRequest);
 		return logInRes;
 
@@ -102,17 +102,23 @@ public class AccountManagerController {
 	 * @return
 	 */
 	@RequestMapping(value = "validateuserid", method = RequestMethod.GET)
-	public Status validateUserid(@RequestParam(value = "userId") String userId) {
+	public ValidateUserResponse validateUserid(@RequestParam(value = "userId") String userId,
+			@RequestHeader("my-number") String transactionId) {
 		Status status = new Status();
-		ValidateUserResponse validateUserid = validateUserManagerService.validateUserid(userId);
-		if (validateUserid == null) {
+		ValidateUserResponse validateUserRes = validateUserManagerService.validateUserid(userId);
+		if (validateUserRes != null && validateUserRes.getStatus().equals("200") && validateUserRes.isIsuserexist()) {
+			status.setSuccess_message("You already have a account registered to this email address");
+			status.setSuccess_code("403");
+			validateUserRes.setTransactionid(transactionId);
+			validateUserRes.setStatus(status);
+			return validateUserRes;
+		} else if (validateUserRes.getStatus().getError_code().equals("500")) {
 			status.setSuccess_message("There is no account associated with this email address");
 			status.setSuccess_code("400");
-			return status;
+			validateUserRes.setStatus(status);
+			return validateUserRes;
 		}
-		status.setSuccess_message("You already have a account registered to this email address");
-		status.setSuccess_code("403");
-		return status;
+		return null;
 
 	}
 
