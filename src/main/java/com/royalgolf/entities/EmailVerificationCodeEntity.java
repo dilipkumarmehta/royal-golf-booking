@@ -2,87 +2,74 @@ package com.royalgolf.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class EmailVerificationCodeEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	// @Id
-	@Column(name = "USERCODE", nullable = false)
-	private String userCode;
-	@Column(name = "USERNAME")
-	
-	private String userName;
-	@Column(name = "USERPWD")
-	private String userpwd;
-	@Column(name = "GROUPID")
-	private int groupid;
-	@Column(name = "USERDESIGN")
-
-	private String userdesign;
 	@Id
-	@Column(name = "DEPTCODE")
-	private String deptcode;
+	private String transactionId;
+	private String statusReg;
+	private String uniquecode;
+	private String codegenerationdate;
+	private String status;
+	private String errorcode;
+	private String eroordesc;
 
-	@Column(name = "USEMAIL")
-	public String getUserCode() {
-		return userCode;
+	public String getTransactionId() {
+		return transactionId;
 	}
 
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getStatusReg() {
+		return statusReg;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setStatusReg(String statusReg) {
+		this.statusReg = statusReg;
 	}
 
-	public String getUserpwd() {
-		return userpwd;
+	public String getUniquecode() {
+		return uniquecode;
 	}
 
-	public void setUserpwd(String userpwd) {
-		this.userpwd = userpwd;
+	public void setUniquecode(String uniquecode) {
+		this.uniquecode = uniquecode;
 	}
 
-	public int getGroupid() {
-		return groupid;
+	public String getCodegenerationdate() {
+		return codegenerationdate;
 	}
 
-	public void setGroupid(int groupid) {
-		this.groupid = groupid;
+	public void setCodegenerationdate(String codegenerationdate) {
+		this.codegenerationdate = codegenerationdate;
 	}
 
-	public String getUserdesign() {
-		return userdesign;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setUserdesign(String userdesign) {
-		this.userdesign = userdesign;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public String getDeptcode() {
-		return deptcode;
+	public String getErrorcode() {
+		return errorcode;
 	}
 
-	public void setDeptcode(String deptcode) {
-		this.deptcode = deptcode;
+	public void setErrorcode(String errorcode) {
+		this.errorcode = errorcode;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getEroordesc() {
+		return eroordesc;
 	}
 
-	@Override
-	public String toString() {
-		return "Test [userCode=" + userCode + ", userName=" + userName + ", userpwd=" + userpwd + ", groupid=" + groupid
-				+ ", userdesign=" + userdesign + ", deptcode=" + deptcode + "]";
+	public void setEroordesc(String eroordesc) {
+		this.eroordesc = eroordesc;
 	}
 
 }

@@ -10,6 +10,15 @@ public class Status implements Serializable {
 	private String success_code;
 	private String error_message;
 	private String success_message;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Status() {
 

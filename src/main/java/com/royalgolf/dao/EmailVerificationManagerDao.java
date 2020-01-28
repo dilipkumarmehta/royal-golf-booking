@@ -1,5 +1,7 @@
 package com.royalgolf.dao;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,8 +16,8 @@ import com.royalgolf.entities.EmailVerificationEntity;
 @Repository
 public interface EmailVerificationManagerDao extends JpaRepository<EmailVerificationEntity, Long> {
 	@Query(value = "{call API_VerifyEmail(:userId)}", nativeQuery = true)
-	public EmailVerificationEntity verifyEmail(
-		//	@Param("transactionId") String transactionId,
-		//	@Param("transactiontTyp") String transactiontTyp,
+	public Optional<EmailVerificationEntity> verifyEmail(
+			// @Param("uniqueCode") String uniqueCode,
 			@Param("userId") String userId);
+
 }

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
-import com.royalgolf.beans.VerifyEmailRequest;
 import com.royalgolf.dao.EmailVerificationManagerDao;
+import com.royalgolf.response.EmailVarificationResponse;
 import com.royalgolf.service.VerifyEmailManagerService;
 
 @Service
@@ -16,7 +16,8 @@ public class VerifyEmailManagerServiceImpl implements VerifyEmailManagerService 
 	EmailVerificationManagerDao emailVerificationManagerDao;
 
 	@Override
-	public void verifyEmail(VerifyEmailRequest verifyEmailRequest) {
+	public EmailVarificationResponse verifyEmail(String uniqueCode,String userId) {
+		return null;
 		// TODO Auto-generated method stub
 
 	}

@@ -19,23 +19,22 @@ public class ValidateUserManagerServiceImpl implements ValidateUserManagerServic
 
 	@Override
 	public ValidateUserResponse validateUserid(String userId) {
-		ValidateUserResponse res = new ValidateUserResponse();
+		ValidateUserResponse validateUserRes = new ValidateUserResponse();
 		Status status = new Status();
 		Optional<ValidateUseridEntity> validateUser = validateUseridManagerDao.ValidateUser("userID");
-
-		if (validateUser.isPresent()) {
+		if (validateUser.isPresent() && validateUser.get().isIsuserexist()) {
+			status.setSuccess_message("There is no account associated with this email address");
 			status.setSuccess_code("200");
-			status.setSuccess_message("Success");
-			res.setIsuserexist(validateUser.get().isIsuserexist());
-			res.setStatus(status);
+			validateUserRes.setStatus(status);
+			return validateUserRes;
 
-		} else if (!validateUser.isPresent()) {
-			status.setError_code("500");
-			res.setStatus(status);
-
+		} else if (validateUser.isPresent() && !validateUser.get().isIsuserexist()) {
+			status.setSuccess_message("You already have a account registered to this email address");
+			status.setSuccess_code("403");
+			validateUserRes.setStatus(status);
+			return validateUserRes;
 		}
+		return null;
 
-		return res;
 	}
-
 }

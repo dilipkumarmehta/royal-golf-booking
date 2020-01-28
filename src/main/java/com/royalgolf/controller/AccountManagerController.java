@@ -104,47 +104,45 @@ public class AccountManagerController {
 	@RequestMapping(value = "validateuserid", method = RequestMethod.GET)
 	public ValidateUserResponse validateUserid(@RequestParam(value = "userId") String userId,
 			@RequestHeader("my-number") String transactionId) {
-		Status status = new Status();
 		ValidateUserResponse validateUserRes = validateUserManagerService.validateUserid(userId);
-		if (validateUserRes != null && validateUserRes.getStatus().equals("200") && validateUserRes.isIsuserexist()) {
-			status.setSuccess_message("You already have a account registered to this email address");
-			status.setSuccess_code("403");
+		if (validateUserRes != null && validateUserRes.getStatus().getSuccess_code().equals("200")) {
 			validateUserRes.setTransactionid(transactionId);
+			Status status = validateUserRes.getStatus();
+			status.setStatus("success");
 			validateUserRes.setStatus(status);
 			return validateUserRes;
-		} else if (validateUserRes.getStatus().getError_code().equals("500")) {
-			status.setSuccess_message("There is no account associated with this email address");
-			status.setSuccess_code("400");
+		}
+		if (validateUserRes != null && validateUserRes.getStatus().getSuccess_code().equals("500")) {
+			validateUserRes.setTransactionid(transactionId);
+			Status status = validateUserRes.getStatus();
+			status.setStatus("Failure");
 			validateUserRes.setStatus(status);
 			return validateUserRes;
 		}
 		return null;
-
 	}
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public UserRegistrationResponse userRegistration(@RequestBody UserRegistrationRequest registrationRequest) {
-		Status status = new Status();
-		UserRegistrationResponse urr = new UserRegistrationResponse();
-		ValidateUserResponse validateUserid = validateUserManagerService.validateUserid("dsf");
-		if (validateUserid != null && validateUserid.isIsuserexist()) {
-			status.setError_message("You already have a account registered to this email go for login");
-			status.setError_code("403");
-			urr.setStatus(status);
-			return urr;
-
-		}
-		UserRegistrationResponse statusRs = registrationManagerService.registerUser(registrationRequest);
-		if (statusRs != null) {
-			status.setSuccess_message("You have successfully registered with email " + registrationRequest.getUserId());
-			status.setSuccess_code("200");
-
-		}
-		if (validateUserid == null) {
-			status.setSuccess_message("Erro occured while creating account please try again");
-			status.setSuccess_code("500");
-		}
-		return statusRs;
+		return null;
+		/*
+		 * Status status = new Status(); UserRegistrationResponse urr = new
+		 * UserRegistrationResponse(); ValidateUserResponse validateUserid =
+		 * validateUserManagerService.validateUserid("dsf"); if (validateUserid != null
+		 * && validateUserid.isIsuserexist()) { UserRegistrationResponse statusRs =
+		 * registrationManagerService.registerUser(registrationRequest); if (statusRs !=
+		 * null) { status.setSuccess_message(
+		 * "You have successfully registered with email " +
+		 * registrationRequest.getUserId()); status.setSuccess_code("200");
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * if (validateUserid == null) { status.
+		 * setSuccess_message("Erro occured while creating account please try again");
+		 * status.setSuccess_code("500"); } return statusRs;
+		 */
 	}
 
 	/*
@@ -182,8 +180,10 @@ public class AccountManagerController {
 	 * @return
 	 */
 	@RequestMapping(value = "verifyemail", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public EmailVarificationResponse verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest) {
-		verifyEmailManagerService.verifyEmail(verifyEmailRequest);
+	public EmailVarificationResponse verifyEmail(@RequestParam(value = "uniqueCode") String uniqueCode,
+			@RequestParam(value = "userId") String userId) {
+
+		verifyEmailManagerService.verifyEmail(uniqueCode, userId);
 		return null;
 	}
 

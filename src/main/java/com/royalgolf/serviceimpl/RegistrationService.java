@@ -1,4 +1,4 @@
-package com.royalgolf.serviceimpl;
+/*package com.royalgolf.serviceimpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -7,8 +7,8 @@ import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.stereotype.Service;
 
-import com.royalgolf.beans.RegistrationBean;
 import com.royalgolf.beans.Status;
+import com.royalgolf.request.UserRegistrationRequest;
 
 @Service
 public class RegistrationService {
@@ -16,7 +16,7 @@ public class RegistrationService {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Status registration(RegistrationBean registrationBean) {
+	public Status registration(UserRegistrationRequest registerRequest) {
 		Status status = new Status();
 		try {
 			StoredProcedureQuery spq = em.createStoredProcedureQuery("dbo.sp_registration");
@@ -46,31 +46,31 @@ public class RegistrationService {
 			spq.registerStoredProcedureParameter("Contactperson_designation", String.class, ParameterMode.IN);
 			spq.registerStoredProcedureParameter("approve", String.class, ParameterMode.IN);
 
-			spq.setParameter("RegNo", registrationBean.getRegNo());
-			spq.setParameter("Name", registrationBean.getName());
-			spq.setParameter("BuildingNo", registrationBean.getBuildingNo());
-			spq.setParameter("StreetLine1", registrationBean.getStreetLine1());
-			spq.setParameter("StreetLine2", registrationBean.getStreetLine2());
-			spq.setParameter("CityCode", registrationBean.getCityCode());
-			spq.setParameter("StateCode", registrationBean.getStateCode());
-			spq.setParameter("CtryCode", registrationBean.getCtryCode());
-			spq.setParameter("ZipCode", registrationBean.getZipCode());
-			spq.setParameter("Tel1", registrationBean.getTel1());
-			spq.setParameter("Fax", registrationBean.getFax());
-			spq.setParameter("Email", registrationBean.getEmail());
-			spq.setParameter("Type", registrationBean.getType());
-			spq.setParameter("Founded", registrationBean.getFounded());
-			spq.setParameter("NoOfEmployees", registrationBean.getNoOfEmployees());
-			spq.setParameter("Website", registrationBean.getWebsite());
-			spq.setParameter("AboutUs", registrationBean.getAboutUs());
-			spq.setParameter("Contactperson_Name", registrationBean.getContacterson_Name());
-			spq.setParameter("Contactperson_Position", registrationBean.getContactperson_designation());
-			spq.setParameter("Contactperson_PhneNo", registrationBean.getContactperson_MobileNo());
-			spq.setParameter("Contactperson_FaxNo", registrationBean.getContactperson_FaxNo());
-			spq.setParameter("Contactperson_MobileNo", registrationBean.getContactperson_MobileNo());
-			spq.setParameter("Contactperson_Email", registrationBean.getContactperson_Email());
-			spq.setParameter("Contactperson_designation", registrationBean.getContactperson_designation());
-			spq.setParameter("approve", registrationBean.getApprove());
+			spq.setParameter("RegNo", registerRequest.getRegNo());
+			spq.setParameter("Name", registerRequest.getName());
+			spq.setParameter("BuildingNo", registerRequest.getBuildingNo());
+			spq.setParameter("StreetLine1", registerRequest.getStreetLine1());
+			spq.setParameter("StreetLine2", registerRequest.getStreetLine2());
+			spq.setParameter("CityCode", registerRequest.getCityCode());
+			spq.setParameter("StateCode", registerRequest.getStateCode());
+			spq.setParameter("CtryCode", registerRequest.getCtryCode());
+			spq.setParameter("ZipCode", registerRequest.getZipCode());
+			spq.setParameter("Tel1", registerRequest.getTel1());
+			spq.setParameter("Fax", registerRequest.getFax());
+			spq.setParameter("Email", registerRequest.getEmail());
+			spq.setParameter("Type", registerRequest.getType());
+			spq.setParameter("Founded", registerRequest.getFounded());
+			spq.setParameter("NoOfEmployees", registerRequest.getNoOfEmployees());
+			spq.setParameter("Website", registerRequest.getWebsite());
+			spq.setParameter("AboutUs", registerRequest.getAboutUs());
+			spq.setParameter("Contactperson_Name", registerRequest.getContacterson_Name());
+			spq.setParameter("Contactperson_Position", registerRequest.getContactperson_designation());
+			spq.setParameter("Contactperson_PhneNo", registerRequest.getContactperson_MobileNo());
+			spq.setParameter("Contactperson_FaxNo", registerRequest.getContactperson_FaxNo());
+			spq.setParameter("Contactperson_MobileNo", registerRequest.getContactperson_MobileNo());
+			spq.setParameter("Contactperson_Email", registerRequest.getContactperson_Email());
+			spq.setParameter("Contactperson_designation", registerRequest.getContactperson_designation());
+			spq.setParameter("approve", registerRequest.getApprove());
 			boolean execute = spq.execute();
 			if (!execute) {
 				status.setSuccess_code("200");
@@ -87,3 +87,4 @@ public class RegistrationService {
 	}
 
 }
+*/
